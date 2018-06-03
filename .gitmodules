@@ -1,0 +1,3 @@
+[submodule "agnoster-zsh-theme"]
+	path = agnoster-zsh-theme
+	url = https://github.com/crunchyintheory/agnoster-zsh-theme
