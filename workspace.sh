@@ -29,22 +29,27 @@ if [[ "$grepres" != "" ]]; then
     exit
 fi
 
-if [[ "$WORKSPACE" != "" ]]; then
-    echo "Netsting workspaces is not recommended."
-fi
-
 if [[ "$1" == "-a" || "$1" == "--add" ]]; then
     if [ ! -f "$USR/.workspace/known" ]; then
         touch "$USR/.workspace/known"
     fi
-    cd /
-    if [ -d "$3" ]; then
-        echo "$2 $3" >> "$USR/.workspace/known"
-        echo "Saved workspace $2 as $3"
+    if cd "$2"; then
+        d="$PWD"
+        cd "$OLDPWD"
+	    if [[ "$3" != "" ]]; then
+       	    echo "$3 $d" >> "$USR/.workspace/known"
+            echo "Saved workspace $3 as $d"
+	    else
+	        echo "Please provide a name for the workspace"
+        fi
     else
-        echo "No directory found at $3 (make sure you use an absolutely-resolvable path)"
+        echo "No directory found at $2"
     fi
     exit
+fi
+
+if [[ "$WORKSPACE" != "" ]]; then
+    echo "Netsting workspaces is not recommended."
 fi
 
 if [ ! -d $1 ]; then
