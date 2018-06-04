@@ -22,14 +22,7 @@ cd $WORKSPACE
 source $WORKSPACE/.workspace' > "$USR/.workspace/.zshrc"
 fi
 
-grepres=$(grep -E -o "^$1\ .+$" $USR/.workspace/known)
-
-if [[ "$grepres" != "" ]]; then
-    workspace ${grepres##"$1 "}
-    exit
-fi
-
-if [[ "$1" == "-a" || "$1" == "--add" ]]; then
+if [[ "$1" == "add" || "$1" == "-a" || "$1" == "--add" ]]; then
     if [ ! -f "$USR/.workspace/known" ]; then
         touch "$USR/.workspace/known"
     fi
@@ -45,6 +38,13 @@ if [[ "$1" == "-a" || "$1" == "--add" ]]; then
     else
         echo "No directory found at $2"
     fi
+    exit
+fi
+
+grepres=$(grep -E -o "^$1\ .+$" $USR/.workspace/known)
+
+if [[ "$grepres" != "" ]]; then
+    workspace ${grepres##"$1 "}
     exit
 fi
 
